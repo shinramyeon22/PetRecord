@@ -1,13 +1,18 @@
 <?php
-include('databases.php');
+// Database configuration - PetRecord System (for Laragon)
+$host = 'sql102.infinityfree.com';
+$port = 3306;
+$dbName = 'if0_41586855_petrec';      // ← Professional name aligned with Pet content
+$username = 'if0_41586855';
+$password = 'ot0AKtU9ZYITi';             // Default blank in Laragon
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['_method'] ?? '') === 'delete') {
-    $id = $_POST['id'] ?? null;
-    if ($id) {
-        $stmt = $pdo->prepare('DELETE FROM pets WHERE id = :id');
-        $stmt->execute([':id' => $id]);
-    }
-    header('Location: index.php');
-    exit;
+// Connection string
+$dsn = "mysql:host={$host};port={$port};dbname={$dbName};charset=utf8mb4";
+
+try {
+    $pdo = new PDO($dsn, $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
 ?>
